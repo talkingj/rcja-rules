@@ -191,6 +191,9 @@
     padding: 10px 12px;
     cursor: pointer;
   }
+  .rule-main:active {
+    background: var(--blue-tint);
+  }
   .rule-main:focus {
     outline: 2px solid var(--green);
     outline-offset: -2px;
@@ -201,6 +204,25 @@
   .rule-header {
     display: flex; align-items: center; gap: 7px;
     margin-bottom: 5px; flex-wrap: wrap;
+  }
+  .rule-chevron {
+    margin-left: auto;
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1;
+    transition: transform 150ms ease-out, color 80ms, opacity 80ms;
+    pointer-events: none;
+  }
+  @media (pointer: fine) {
+    .rule-chevron { opacity: 0; }
+    .rule-main:hover .rule-chevron,
+    .rule-main:focus-visible .rule-chevron { opacity: 1; }
+  }
+  .expanded .rule-chevron {
+    transform: rotate(90deg);
+    color: var(--navy-mid);
+    opacity: 1 !important;
   }
 
   /* Rule number badge — table-header style */
@@ -243,6 +265,7 @@
     color: var(--ink);
     max-width: 72ch;
   }
+
 
   mark {
     background: var(--highlight);
@@ -556,6 +579,7 @@ function render() {
           <span class="rule-number">${numLabel}</span>
           ${rule.changed ? '<span class="changed-badge">2026 ★</span>' : ''}
           <span class="breadcrumb">${escapeHtml(breadcrumb)}</span>
+          <span class="rule-chevron">›</span>
         </div>
         <div class="rule-text">${highlight(rule.text, highlightTerms)}</div>
         ${showLeagues ? `<div class="league-pills">${leaguePills(rule.leagues)}</div>` : ''}
